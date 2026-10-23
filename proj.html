@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#101827">
+    <meta name="description" content="A simple, personal task manager that keeps your day organized.">
+    <title>Daymark | Task Manager</title>
+    <link rel="stylesheet" href="proj.css">
+</head>
+<body>
+    <div class="app-shell">
+        <header class="topbar">
+            <a class="brand" href="proj.html" aria-label="Daymark home">
+                <span class="brand-mark" aria-hidden="true">✓</span>
+                <span>daymark<span class="brand-period">.</span></span>
+            </a>
+            <p class="topbar-note">A little progress, every day.</p>
+            <span class="today-label" id="today-label"></span>
+        </header>
+
+        <main>
+            <section class="welcome" aria-labelledby="page-title">
+                <div>
+                    <p class="eyebrow">YOUR PERSONAL WORKSPACE</p>
+                    <h1 id="page-title">Make room for <span>what matters.</span></h1>
+                    <p class="welcome-copy">Plan your day, keep your priorities clear, and celebrate every task you finish.</p>
+                </div>
+                <div class="welcome-art" aria-hidden="true">
+                    <span class="art-sparkle sparkle-one">✳</span>
+                    <span class="art-sparkle sparkle-two">✦</span>
+                    <span class="art-check">✓</span>
+                </div>
+            </section>
+
+            <section class="stats-grid" aria-label="Task summary">
+                <article class="stat-card">
+                    <div class="stat-icon icon-total" aria-hidden="true">▤</div>
+                    <div><p class="stat-label">Total tasks</p><p class="stat-value" id="total-count">0</p></div>
+                </article>
+                <article class="stat-card">
+                    <div class="stat-icon icon-pending" aria-hidden="true">◷</div>
+                    <div><p class="stat-label">In progress</p><p class="stat-value" id="pending-count">0</p></div>
+                </article>
+                <article class="stat-card">
+                    <div class="stat-icon icon-complete" aria-hidden="true">✓</div>
+                    <div><p class="stat-label">Completed</p><p class="stat-value" id="completed-count">0</p></div>
+                </article>
+                <article class="stat-card progress-card">
+                    <div class="progress-heading"><p class="stat-label">Daily progress</p><p class="progress-percent" id="progress-percent">0%</p></div>
+                    <div class="progress-track" role="progressbar" aria-label="Completed tasks" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress-track"><span id="progress-fill"></span></div>
+                    <p class="progress-caption" id="progress-caption">A fresh start. You’ve got this!</p>
+                </article>
+            </section>
+
+            <div class="dashboard-grid">
+                <section class="task-panel panel" aria-labelledby="tasks-heading">
+                    <div class="panel-heading">
+                        <div>
+                            <p class="eyebrow">YOUR DAY, ORGANIZED</p>
+                            <h2 id="tasks-heading">My tasks <span class="task-total-pill" id="visible-count">0</span></h2>
+                        </div>
+                        <button class="text-button" id="clear-completed" type="button" disabled>Clear completed</button>
+                    </div>
+
+                    <div class="task-controls">
+                        <label class="search-box">
+                            <span class="search-icon" aria-hidden="true">⌕</span>
+                            <span class="visually-hidden">Search tasks</span>
+                            <input id="search-input" type="search" placeholder="Search your tasks..." autocomplete="off">
+                            <kbd>/</kbd>
+                        </label>
+                        <label class="select-wrap">
+                            <span class="visually-hidden">Sort tasks</span>
+                            <select id="sort-select">
+                                <option value="none">Newest first</option>
+                                <option value="high">Priority: high to low</option>
+                                <option value="low">Priority: low to high</option>
+                                <option value="due">Due date: soonest</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <div class="filter-tabs" role="group" aria-label="Filter tasks by status">
+                        <button class="filter-tab is-active" type="button" data-filter="all" aria-pressed="true">All tasks</button>
+                        <button class="filter-tab" type="button" data-filter="pending" aria-pressed="false">In progress</button>
+                        <button class="filter-tab" type="button" data-filter="completed" aria-pressed="false">Completed</button>
+                    </div>
+
+                    <div class="task-list" id="task-list" aria-live="polite"></div>
+                </section>
+
+                <aside class="side-column">
+                    <section class="form-panel panel" aria-labelledby="form-heading">
+                        <div class="panel-heading form-heading">
+                            <div>
+                                <p class="eyebrow" id="form-eyebrow">LET’S GET IT DONE</p>
+                                <h2 id="form-heading">Add a task</h2>
+                            </div>
+                            <span class="form-icon" aria-hidden="true">＋</span>
+                        </div>
+                        <form id="task-form">
+                            <label class="field-label" for="task-title">Task name</label>
+                            <input class="form-control" id="task-title" name="title" type="text" maxlength="120" placeholder="What needs to get done?" required>
+
+                            <div class="form-row">
+                                <div>
+                                    <label class="field-label" for="task-category">Category</label>
+                                    <select class="form-control" id="task-category" name="category">
+                                        <option value="Study">📚 Study</option>
+                                        <option value="Work">💼 Work</option>
+                                        <option value="Personal">🌱 Personal</option>
+                                        <option value="Other">✦ Other</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="field-label" for="task-priority">Priority</label>
+                                    <select class="form-control" id="task-priority" name="priority">
+                                        <option value="High">High</option>
+                                        <option value="Medium" selected>Medium</option>
+                                        <option value="Low">Low</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <label class="field-label" for="task-due-date">Due date <span class="optional-label">Optional</span></label>
+                            <input class="form-control date-control" id="task-due-date" name="dueDate" type="date">
+
+                            <div class="form-actions">
+                                <button class="primary-button" id="submit-task" type="submit"><span>＋</span> Add task</button>
+                                <button class="cancel-button" id="cancel-edit" type="button" hidden>Cancel</button>
+                            </div>
+                        </form>
+                    </section>
+
+                    <section class="focus-panel" aria-labelledby="focus-heading">
+                        <div class="focus-topline"><span class="focus-icon" aria-hidden="true">✦</span><span>NEED A NUDGE?</span></div>
+                        <h2 id="focus-heading">Find your focus.</h2>
+                        <p>Let us pick one of your pending tasks to get you started.</p>
+                        <button class="focus-button" id="pick-task" type="button">Pick a task <span aria-hidden="true">↗</span></button>
+                        <p class="focus-result" id="focus-result" aria-live="polite" hidden></p>
+                    </section>
+
+                    <p class="privacy-note"><span aria-hidden="true">🔒</span> Your tasks stay in this browser, saved privately on your device.</p>
+                </aside>
+            </div>
+            <p class="status-message" id="status-message" role="status" aria-live="polite"></p>
+        </main>
+        <footer class="footer"><span>daymark<span class="brand-period">.</span></span><span>Small steps add up.</span></footer>
+    </div>
+    <script src="proj.js" defer></script>
+</body>
+</html>
